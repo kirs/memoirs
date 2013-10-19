@@ -9,4 +9,8 @@ class RubyGem < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name
 
+  def latest_version
+    versions.order(:number).first.try(:number)
+  end
+
 end

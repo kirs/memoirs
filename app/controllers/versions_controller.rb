@@ -27,6 +27,6 @@ class VersionsController < ApplicationController
     raise params[:ruby_gem_id].inspect
     FetchGemWorker.perform_async(params[:ruby_gem_id])
 
-    render json: { status: "wait" }
+    render json: { status: "processing" }
   end
 end

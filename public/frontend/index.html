@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="/frontend/local.css">
+  </head>
+  <body>
+    <script id="gem_list" type="text/x-handlebars-template">
+      <table class="table table-hover">
+        <tr>
+          <th>Gem</th>
+          <th>Latest</th>
+          <th>Versions</th>
+        </tr>
+        {{#each this}}
+        <tr>
+          <td>{{name}}</td>
+          <td>
+            <a class="open-version" href="javascript:;">{{latest_version}}</a>
+          </td>
+          <td>
+            {{#each versions}}
+              <a class="open-version" href="javascript:;">{{number}}</a>,
+            {{/each}}
+          </td>
+        </tr>
+        {{/each}}
+      </table>
+    </script>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Memoirs</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+
+      <h1>Popular gems</h1>
+
+      <div id="popular_gems_container"></div>
+
+    </div><!-- /.container -->
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="/frontend/js/handlebars.js"></script>
+    <script src="/frontend/js/memoirs.js"></script>
+  </body>
+</html>
