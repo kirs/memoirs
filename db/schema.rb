@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130825105316) do
+ActiveRecord::Schema.define(version: 20131020223534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,12 +27,13 @@ ActiveRecord::Schema.define(version: 20130825105316) do
   create_table "versions", force: true do |t|
     t.integer  "ruby_gem_id"
     t.string   "number"
-    t.integer  "major",         default: 0
-    t.integer  "minor",         default: 0
-    t.integer  "patch",         default: 0
+    t.integer  "major",          default: 0
+    t.integer  "minor",          default: 0
+    t.integer  "patch",          default: 0
     t.text     "release_notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "file_extension"
   end
 
   add_index "versions", ["major", "minor", "patch"], name: "index_versions_on_major_and_minor_and_patch", using: :btree

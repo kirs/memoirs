@@ -23,6 +23,16 @@ class FileExtension
     @file_extension =~ /^(txt|)$/
   end
 
+  def to_db
+    if markdown?
+      :md
+    elsif rdoc?
+      :rdoc
+    elsif plaintext?
+      :txt
+    end
+  end
+
   private
 
   def self.rip_extension_off(file_name)
