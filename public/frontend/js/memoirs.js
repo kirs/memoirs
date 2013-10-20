@@ -7,11 +7,13 @@ $(function() {
 
   openVersionModal = function(version) {
     if(version.release_notes) {
-      version.formatted = new Handlebars.SafeString(markdown.toHTML(version.release_notes))
+      formatted = new Handlebars.SafeString(markdown.toHTML(version.release_notes))
     }
     else {
-      version.formatted = "No data :("
+      formatted = "No data :("
     }
+
+    version.formatted_release_notes = formatted
 
     var modal = versionTemplate(version)
     modal = $(modal)
