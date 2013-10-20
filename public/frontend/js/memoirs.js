@@ -6,6 +6,8 @@ $(function() {
   var versionTemplate = Handlebars.compile(versionTemplateScript.html())
 
   openVersionModal = function(version) {
+    version.formatted = new Handlebars.SafeString(markdown.toHTML(version.release_notes))
+
     var modal = versionTemplate(version)
     modal = $(modal)
 
