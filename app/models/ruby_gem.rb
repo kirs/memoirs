@@ -10,7 +10,6 @@ class RubyGem < ActiveRecord::Base
   friendly_id :name
 
   def latest_version
-    versions.order(:number).first.try(:number)
+    versions.order("number DESC").first.try(:number)
   end
-
 end
