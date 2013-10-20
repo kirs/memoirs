@@ -1,22 +1,17 @@
 module ReleaseNotesImporter
-  def self.import(gem_name)
-    release_notes, file_name = ReleaseNotesFetcher.fetch(gem_name)
-
+  def self.import(gem_name, number)
+    release_notes, file_name = ReleaseNotesFetcher.fetch(gem_name, number)
     file_extension = FileExtension.from_file_name(file_name)
-
     versions = ReleaseNotesParser.parse(release_notes, file_extension)
+    notes = versions[number]
 
-    create_needed_versions(versions, file_extension.to_s, gem_name)
+    create_ruby_gem(gem_name, number, notes)
   end
 
   private
 
-  def self.create_needed_versions(versions, file_extension, gem_name)
+  def self.create_ruby_gem(gem_name, number, release_notes)
     ruby_gem = RubyGem.find_or_create_by!(name: gem_name)
-    ruby_gem.versions.destroy_all
-
-    versions.each do |version_number, release_notes|
-      ruby_gem.versions.create!(number: version_number, release_notes: release_notes)
-    end
+    ruby_gem.versions.create!(number: number, release_notes: release_notes)
   end
 end

@@ -3,8 +3,8 @@ require 'rubygems/package'
 module ReleaseNotesFetcher
   RELEASE_NOTES_REGEXP = /^changelog|^changes|^history/i
 
-  def self.fetch(gem_name)
-    raw_gem = fetch_raw_gem(gem_name)
+  def self.fetch(gem_name, number)
+    raw_gem = fetch_raw_gem(gem_name, number)
     gem_data, _ = untar(raw_gem, /^data\.tar/)
     release_notes, file_name = untar(gem_data, RELEASE_NOTES_REGEXP)
 
@@ -13,8 +13,8 @@ module ReleaseNotesFetcher
 
   private
 
-  def self.fetch_raw_gem(gem_name)
-    uri = URI.parse(Gems.info(gem_name)['gem_uri'])
+  def self.fetch_raw_gem(gem_name, number)
+    uri = URI.parse("http://rubygems.org/downloads/#{gem_name}-#{number}.gem")
     fetcher = Gem::RemoteFetcher.new
 
     fetcher.fetch_http(uri)

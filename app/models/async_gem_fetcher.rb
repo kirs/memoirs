@@ -2,7 +2,7 @@ class AsyncGemFetcher
 
   def initialize(gem_name)
     @gem_name = gem_name
-    @job_klass = FetchGemWorker
+    @job_klass = FetchVersionsWorker
   end
 
   def fetch
