@@ -24,7 +24,7 @@ class VersionsController < ApplicationController
   def wait_for_it
     @ruby_gem = find_ruby_gem
   rescue ActiveRecord::RecordNotFound
-    FetchGemWorker.perform_async(params[:ruby_gem_id])
+    AsyncGemFetcher.new(params[:ruby_gem_id]).fetch
 
     render json: { status: "processing" }
   end
