@@ -1,0 +1,9 @@
+module ReleaseNotesParser
+  grammar Markdown
+    include Markup
+
+    rule release_marker
+      '###' / '##' / '#'
+    end
+  end
+end

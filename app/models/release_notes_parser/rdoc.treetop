@@ -1,0 +1,9 @@
+module ReleaseNotesParser
+  grammar Rdoc
+    include Markup
+
+    rule release_marker
+      '===' / '==' / '='
+    end
+  end
+end

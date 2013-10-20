@@ -10,4 +10,3 @@ end
 %w(2.9.0 3.0.0).each do |v|
   Version.create(ruby_gem: devise, number: v, release_notes: "releasing #{v}")
 end
-
