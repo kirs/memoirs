@@ -12,11 +12,11 @@ module ReleaseNotesImporter
   private
 
   def self.create_needed_versions(versions, file_extension, gem_name)
-    gem = RubyGem.first_or_create(name: gem_name)
-    gem.versions.destroy_all
+    ruby_gem = RubyGem.find_or_create_by!(name: gem_name)
+    ruby_gem.versions.destroy_all
 
     versions.each do |version_number, release_notes|
-      gem.versions.create!(number: version_number, release_notes: release_notes)
+      ruby_gem.versions.create!(number: version_number, release_notes: release_notes)
     end
   end
 end
