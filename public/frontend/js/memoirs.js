@@ -1,43 +1,64 @@
 $(function() {
-  Handlebars.registerHelper( "join", function( array, sep, options ) {
-    return array.map(function( item ) {
-      return options.fn( item );
-    }).join( sep );
-  });
-
   var collectionTemplateScript = $("#gem_list")
   var versionTemplateScript = $("#version_modal")
 
-  if(collectionTemplateScript.length > 0) {
-    var collectionTemplate = Handlebars.compile(collectionTemplateScript.html())
-    var versionTemplate = Handlebars.compile(versionTemplateScript.html())
+  var collectionTemplate = Handlebars.compile(collectionTemplateScript.html())
+  var versionTemplate = Handlebars.compile(versionTemplateScript.html())
 
-    $.getJSON("/ruby_gems", function(gems) {
-      window.gems = gems
-      $("#popular_gems_container").append(collectionTemplate(gems))
-    })
+  openVersionModal = function(version) {
+    var modal = versionTemplate(version)
+    modal = $(modal)
 
-    $(document).on("click", ".open-version", function() {
-      $(".modal").remove() // cleanup
+    modalBlock = $(".modal")
+    $(".modal").empty()
 
-      targerGemName = $(this).data('gem-name')
-      targetVersion = $(this).data('version-number')
-
-      var gem = _.find(window.gems, function(gem) {
-        return targerGemName == gem.name
-      })
-
-      var version = _.find(gem.versions, function(version) {
-        return version.number == targetVersion
-      })
-
-      version = $.extend(version, { gem: gem })
-
-      var modal = versionTemplate(version)
-      modal = $(modal)
-
-      $("body").append(modal)
-      $("body .modal").modal()
-    })
+    modalBlock.append(modal)
+    modalBlock.modal()
   }
+
+  displayVersion = function(gemName, versionNumber) {
+    if(!window.gems) {
+      $.getJSON("/ruby_gems/" + gemName + "/versions", function(gemVersions) {
+        var targetVersion = _.find(gemVersions, function(version) {
+          return version.number == versionNumber
+        })
+
+        targetVersion = $.extend(targetVersion, { gem: {name: "loaded"} })
+        openVersionModal(targetVersion)
+      })
+      return
+    }
+    var gem = _.find(window.gems, function(gem) {
+      return gemName == gem.name
+    })
+
+    var version = _.find(gem.versions, function(version) {
+      return version.number == versionNumber
+    })
+
+    version = $.extend(version, { gem: gem })
+
+    openVersionModal(version)
+  }
+
+  $.getJSON("/ruby_gems", function(loadedGems) {
+    window.gems = loadedGems
+    $("#popular_gems_container").append(collectionTemplate(loadedGems))
+  })
+
+  $(window).on('popstate', function(event) {
+    hash = document.location.hash
+
+    if(result = hash.match(/#!\/([a-z]*)\/([\w.]*)/)) {
+      gemName = result[1]
+      versionNumber = result[2]
+
+      displayVersion(gemName, versionNumber)
+    }
+  })
+
+  $('.modal').on('hidden.bs.modal', function () {
+    console.log("on hide")
+    history.pushState(null, null, "/frontend/")
+  })
 })
