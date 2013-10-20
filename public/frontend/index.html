@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bootstrap 101 Template</title>
+    <title>Memoirs API</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
@@ -22,16 +22,30 @@
         <tr>
           <td>{{name}}</td>
           <td>
-            <a class="open-version" href="javascript:;">{{latest_version}}</a>
+            <a class="open-version" data-gem-name="{{name}}" data-version-number="{{latest_version}}" href="javascript:;">{{latest_version}}</a>
           </td>
           <td>
-            {{#each versions}}
-              <a class="open-version" href="javascript:;">{{number}}</a>,
-            {{/each}}
+            {{#join versions ", "}}
+            <a class="open-version" data-gem-name="{{../name}}" data-version-number="{{number}}" href="javascript:;">{{number}}</a>{{/join}}
           </td>
         </tr>
         {{/each}}
       </table>
+    </script>
+    <script id="version_modal" type="text/x-handlebars-template">
+      <div class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">{{gem.name}} {{number}}</h4>
+            </div>
+            <div class="modal-body">
+              <p>{{release_notes}}</p>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
     </script>
 
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -61,11 +75,11 @@
 
     </div><!-- /.container -->
 
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="//code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="http://yandex.st/underscore/1.5.2/underscore-min.js"></script>
     <script src="/frontend/js/handlebars.js"></script>
     <script src="/frontend/js/memoirs.js"></script>
   </body>
