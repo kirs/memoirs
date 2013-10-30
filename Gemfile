@@ -12,3 +12,7 @@ gem 'friendly_id', '~> 5.0.0'
 
 gem 'gems'
 gem 'treetop'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 2.0'
+end
